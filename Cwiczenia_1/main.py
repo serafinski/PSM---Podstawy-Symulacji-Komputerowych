@@ -9,103 +9,91 @@ x = input("Wprowadź x: ")
 print()
 
 
-# zapewnienie, że wartość zawsze mieści się w granicy 0-2pi (360 stopniach)
-def zapewnienie_wartosci(modulo_radian):
-    modulo_radian = float(modulo_radian)
-    if modulo_radian > 0:
-        return modulo_radian
-    else:
-        return modulo_radian + (2 * math.pi)
+def taylor(wartosc, znak, potega):
+    """
+    It takes a value, a sign, and a power, and returns the Taylor series term for that value, sign, and power
+
+    :param wartosc: the value of the function
+    :param znak: the sign of the term, either +1 or -1
+    :param potega: the power of the function
+    :return: the value of the Taylor series.
+    """
+    return znak * (math.pow(wartosc, potega) / math.factorial(potega))
 
 
-def konwersja_kata(kat):
-    # wprowadzamy kąt
-    kat = float(kat)
-    # zamiana na radiany
-    kat %= (2 * math.pi)
+def konwersja_do_pierwszej_cwiartki(wartosc):
+    """
+    It takes a value and returns the value in the first quadrant
 
-    return zapewnienie_wartosci(kat)
+    :param wartosc: the value to be converted
+    :return: the value of the angle in the first quadrant.
+    """
+    wartosc = float(wartosc)
+    wartosc_znormalizowana = wartosc % (2 * math.pi)
 
-
-def konwersja_do_pierwszej_cwiartki(radian):
     # między 0 a pi/2
-    radian = float(radian)
-    if radian > 0 and radian <= (math.pi / 2):
-        return radian
+    if 0 < wartosc_znormalizowana <= (math.pi / 2):
+        return wartosc_znormalizowana
+
     # między pi/2 a pi
-    elif radian > (math.pi / 2) and radian <= math.pi:
-        radian = math.pi - radian
-        return radian
+    elif (math.pi / 2) < wartosc_znormalizowana <= math.pi:
+        return math.pi - wartosc_znormalizowana
+
     # między pi a 3/2pi
-    elif radian > math.pi and radian <= (3 * (math.pi / 2)):
-        radian = radian - math.pi
-        return radian
+    elif math.pi < wartosc_znormalizowana <= (3 * (math.pi / 2)):
+        return math.pi - wartosc_znormalizowana
+
     else:
-        radian = (2 * math.pi) - radian
-        return radian
+        wartosc_znormalizowana = (2 * math.pi) - wartosc_znormalizowana
+        return wartosc_znormalizowana - (2 * math.pi)
 
 
-def sin_kat():
-    kat = float(x)
-    radian = konwersja_kata(kat)
-    radian = konwersja_do_pierwszej_cwiartki(radian)
+def wartosc_sin(wartosc):
+    """
+    It calculates the value of sin(x) using the Taylor series
 
-    suma = 0
-    potega_przez_silnie = 1
+    :param wartosc: the value of the angle in radians
+    :return: The value of the sin function.
+    """
+    wartosc = konwersja_do_pierwszej_cwiartki(wartosc)
 
-    # wyliczenie z biblioteki
-    sin_biblioteka = math.sin(radian)
+    suma = wartosc
+    znak = -1.0
+    potega = 3
 
-    for wyraz_szeregu in range(1, 11):
-        #
-        potega_przez_silnie = potega_przez_silnie * (radian / wyraz_szeregu)
+    for value in range(1, 11):
+        suma += taylor(wartosc, znak, potega)
 
-        # pozytywny wierzchołek sin'usa
-        if wyraz_szeregu % 4 == 1:
-            suma = suma + potega_przez_silnie
+        znak = znak * -1
+        potega += 2
 
-        # negatywny wierzchołek sin'usa
-        if wyraz_szeregu % 4 == 3:
-            suma = suma - potega_przez_silnie
-
-    print(math.sin(float(x)))
-    print("Wynik sin(x) = " + str(suma))
-    blad = (math.fabs(suma) - math.fabs(sin_biblioteka))
-    print("Błąd sin(x) = " + str(blad))
-    print()
+    return suma
 
 
-def sin_rad():
-    radian = zapewnienie_wartosci(x)
-    radian = konwersja_do_pierwszej_cwiartki(radian)
+def stopnie():
+    """
+    It takes a value in degrees, converts it to radians, calculates the sine of the value using the math library and the
+    sine function from the previous exercise, and prints the results
+    """
+    radian = math.radians(float(x))
+    sin_z_biblioteki = math.sin(radian)
+    print("Biblioteka: " + str(sin_z_biblioteki))
+    print("Ręcznie: " + str(wartosc_sin(radian)))
+    print("Róznica: " + str(math.fabs(wartosc_sin(radian)-sin_z_biblioteki)))
 
-    suma = 0
-    potega_przez_silnie = 1
-
-    # wyliczenie z biblioteki
-    sin_biblioteka = math.sin(radian)
-
-    for wyraz_szeregu in range(1, 11):
-        #
-        potega_przez_silnie = potega_przez_silnie * (radian / wyraz_szeregu)
-
-        # pozytywny wierzchołek sin'usa
-        if wyraz_szeregu % 4 == 1:
-            suma = suma + potega_przez_silnie
-
-        # negatywny wierzchołek sin'usa
-        if wyraz_szeregu % 4 == 3:
-            suma = suma - potega_przez_silnie
-
-    print("Wynik sin(x) = " + str(suma))
-    blad = (math.fabs(suma) - math.fabs(sin_biblioteka))
-    print("Błąd sin(x) = " + str(blad))
-    print()
+def radiany():
+    """
+    It calculates the sine of a given angle in radians
+    """
+    sin_z_biblioteki = math.sin(float(x))
+    print("Biblioteka: " + str(sin_z_biblioteki))
+    print("Ręcznie: " + str(wartosc_sin(x)))
+    print("Róznica: " + str(math.fabs(wartosc_sin(x)-sin_z_biblioteki)))
 
 
 if int(wybor) == 1:
-    sin_rad()
+    radiany()
 elif int(wybor) == 2:
-    sin_kat()
+    stopnie()
 else:
     print("Nie wprowadzono prawidłowej opcji - spróbuj ponownie!")
