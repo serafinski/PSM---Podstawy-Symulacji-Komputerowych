@@ -21,7 +21,7 @@ def taylor(wartosc, znak, potega):
     return znak * (math.pow(wartosc, potega) / math.factorial(potega))
 
 
-def konwersja_do_pierwszej_cwiartki(wartosc):
+def konwersja(wartosc):
     """
     It takes a value and returns the value in the first quadrant
 
@@ -55,7 +55,7 @@ def wartosc_sin(wartosc):
     :param wartosc: the value of the angle in radians
     :return: The value of the sin function.
     """
-    wartosc = konwersja_do_pierwszej_cwiartki(wartosc)
+    wartosc = konwersja(wartosc)
 
     suma = wartosc
     znak = -1.0
