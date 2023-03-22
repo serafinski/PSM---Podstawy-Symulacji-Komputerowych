@@ -1,5 +1,12 @@
 from typing import List
 import pandas as pd
+import matplotlib.pyplot as plt
+
+podstawowy_koordynat_x_list = []
+podstawowy_koordynat_y_list = []
+
+zaawansowany_koordynat_x_list = []
+zaawansowany_koordynat_y_list = []
 
 
 class Euler:
@@ -43,6 +50,8 @@ def podstawowyeuler(pochodna_czasu, grawitacja_x, grawitacja_pionowa_y, masa, op
     zmiana_pozycja_y_basic = pochodna_czasu * predkosc_pionowa_y_basic
 
     for i in range(0, 200, int(pochodna_czasu * 100)):
+        podstawowy_koordynat_x_list.append(koordynat_x_basic)
+        podstawowy_koordynat_y_list.append(koordynat_y_basic)
         koordynat_x_basic += zmiana_pozycja_x_basic
         koordynat_y_basic += zmiana_pozycja_y_basic
         przyspieszenie_x_basic = (masa * grawitacja_x - opor_osrodka * predkosc_x_basic) / masa
@@ -84,6 +93,7 @@ def ulepszonyeuler(pochodna_czasu, grawitacja_x, grawitacja_pionowa_y, czas):
     koordynat_y_ulepszony = 0
     predkosc_x_ulepszony = 10
     predkosc_y_ulepszony = 10
+
     przyspieszenie_x_ulepszony = grawitacja_x
     przyspieszenie_y_ulepszony = grawitacja_pionowa_y
     predkosc_x_ulepszony_polowa = pochodna_czasu * przyspieszenie_x_ulepszony / 2 + predkosc_x_ulepszony
@@ -94,6 +104,8 @@ def ulepszonyeuler(pochodna_czasu, grawitacja_x, grawitacja_pionowa_y, czas):
     zmiana_pozycja_y_ulepszony = predkosc_y_ulepszony_polowa * pochodna_czasu
 
     for i in range(0, 200, int(pochodna_czasu * 100)):
+        zaawansowany_koordynat_x_list.append(koordynat_x_ulepszony)
+        zaawansowany_koordynat_y_list.append(koordynat_y_ulepszony)
         koordynat_x_ulepszony += zmiana_pozycja_x_ulepszony
         koordynat_y_ulepszony += zmiana_pozycja_y_ulepszony
         predkosc_x_ulepszony += zmiana_predkosc_x_ulepszony
@@ -101,7 +113,7 @@ def ulepszonyeuler(pochodna_czasu, grawitacja_x, grawitacja_pionowa_y, czas):
         przyspieszenie_x_ulepszony = grawitacja_x
         przyspieszenie_y_ulepszony = grawitacja_pionowa_y
 
-        #
+        # POŁOWA
         predkosc_x_ulepszony_polowa = pochodna_czasu * przyspieszenie_x_ulepszony / 2 + predkosc_x_ulepszony
         predkosc_y_ulepszony_polowa = pochodna_czasu * przyspieszenie_y_ulepszony / 2 + predkosc_y_ulepszony
         zmiana_predkosc_x_ulepszony = grawitacja_x * pochodna_czasu
@@ -142,3 +154,10 @@ if __name__ == '__main__':
     print()
     print("Zaawansowany")
     ulepszonyeuler(pochodna, grav_x, grav_y, time)
+
+    plt.plot(podstawowy_koordynat_x_list, podstawowy_koordynat_y_list, label="Podstawowy")
+    plt.plot(zaawansowany_koordynat_x_list, zaawansowany_koordynat_y_list, label="Zaawansowany")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.legend()
+    plt.show()
