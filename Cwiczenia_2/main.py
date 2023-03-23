@@ -142,11 +142,12 @@ def ulepszonyeuler(pochodna_czasu, grawitacja_x, grawitacja_pionowa_y, czas):
 
 if __name__ == '__main__':
     # ZMIENNE
-    pochodna = 0.01
-    grav_x = 0
-    grav_y = -10
-    mass = 1
-    opor = 0.2
+    pochodna = float(input("Wprowadź pochodną czasu: "))  # 0.01
+    grav_x = float(input("Wprowadź grawitacje w kierunku horyzontalnym: "))  # 0
+    grav_y = float(input("Wprowadź grawitacje w kierunku wertykalnym: "))  # -10
+    mass = float(input("Wprowadź masę cząsteczki: "))  # 1
+    opor = float(input("Wprowadź współczynnik oporu ośrodka w przedziale od 0 do 1: "))  # 0.2
+    print()
     time = 1
 
     print("Podstawowy")
@@ -159,5 +160,10 @@ if __name__ == '__main__':
     plt.plot(zaawansowany_koordynat_x_list, zaawansowany_koordynat_y_list, label="Zaawansowany")
     plt.xlabel("X")
     plt.ylabel("Y")
+    plt.title("dt: " + str(pochodna) +
+              "; gx: " + str(grav_x) +
+              "; gy: " + str(grav_y) +
+              "; mass: " + str(mass) +
+              "; k: " + str(opor))
     plt.legend()
     plt.show()
