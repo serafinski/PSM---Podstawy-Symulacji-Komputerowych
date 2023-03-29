@@ -2,7 +2,6 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Constants
 grav = 10
 pendulum_length = 1.0
 
@@ -102,7 +101,7 @@ def display_energy(time_values, angle_values, velocity_values, pendulum_length, 
 
     kinetic_energy = 0.5 * mass * (pendulum_length * velocity_values) ** 2
 
-    potential_energy = mass * 9.81 * pendulum_length * (1 - np.cos(angle_values))
+    potential_energy = mass * 10 * pendulum_length * (1 - np.cos(angle_values))
 
     total_energy = kinetic_energy + potential_energy
 
@@ -127,8 +126,8 @@ def plot_trajectory(angle_values, pendulum_length, method):
     plt.title(f'Trajectory of a Pendulum - {method}')
     plt.show()
 
+
 def main():
-    # Pendulum parameters
     pendulum_length = 1.0
     mass = 1.0
     initial_angle = np.pi / 4
@@ -140,7 +139,8 @@ def main():
     display_energy(time_euler, angle_euler, velocity_euler, pendulum_length, mass, method_euler)
     plot_trajectory(angle_euler, pendulum_length, method_euler)
 
-    time_midpoint, angle_midpoint, velocity_midpoint, method_midpoint = midpoint_method(initial_angle, initial_velocity, time_step)
+    time_midpoint, angle_midpoint, velocity_midpoint, method_midpoint = midpoint_method(initial_angle, initial_velocity,
+                                                                                        time_step)
 
     display_energy(time_midpoint, angle_midpoint, velocity_midpoint, pendulum_length, mass, method_midpoint)
     plot_trajectory(angle_midpoint, pendulum_length, method_midpoint)
