@@ -10,7 +10,7 @@ m_sfery = 1
 # Promień
 r_sfery = 2
 # Moment bezwładności wokół osi obrotu
-ik_sfery = 2 / 5 * m_sfery * r_sfery ** 2
+ik_sfery = 2 / 3 * m_sfery * r_sfery ** 2
 # Prędkość kątowa sfery wokół jej osi obrotu
 w_sfery = 0
 # Kąt obrotu kuli wokół jej osi obrotu
