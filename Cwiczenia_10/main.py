@@ -47,8 +47,8 @@ class FractalPlant:
 
         # Nie chcemy by rysował jak go przenosimy na start
         turtle.penup()
-        # Pozycja wejściowa
-        turtle.goto(0, 0)  # Initial position (X=0, Y=0)
+        # Pozycja wejściowa X = 0 i Y = 0
+        turtle.goto(0, 0)
         # Początek rysowania
         turtle.pendown()
         # Kąt początkowy - 90 stopni zapewni, że roślina będzie rosnąc w górę
